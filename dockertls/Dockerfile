@@ -13,8 +13,12 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
   Copy-Item $Env:Temp\libressl-$Env:VERSION-windows\x64\* $Env:LIBRESSLPATH\. ; `
   Remove-Item $Env:LIBRESSLPATH\*.pdb ; `
   Remove-Item $Env:Temp\libressl-$Env:VERSION-windows, $Env:Temp\libressl.zip -Force -Recurse ; `
-  New-Item -ItemType Directory -Path $Env:LIBRESSLPATH\ssl 
+  New-Item -ItemType Directory -Path $Env:LIBRESSLPATH\ssl ; `
+  New-Item -ItemType Directory -Path C:\Workdir
 
 COPY openssl.cnf $LIBRESSLPATH/ssl/.
+
+WORKDIR C:\Workdir
+
 COPY generate-certs.ps1 generate-certs.ps1
 CMD . .\generate-certs.ps1
